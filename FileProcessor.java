@@ -20,6 +20,8 @@ public class FileProcessor {
 	
 	private static String indexFileName = null;
 	private static File indexFile = null;
+
+	
 	
 	public FileProcessor(String name) {
 		readFileName = name;
@@ -51,30 +53,30 @@ public class FileProcessor {
 	 */
 	public String getLine(int n) {
 		String line = null;
-		RandomAccessFile r = null;
-		RandomAccessFile i = null;
+		RandomAccessFile readRAF = null;
+		RandomAccessFile indexRAF = null;
 		
 		try {
-			r = new RandomAccessFile(readFile, "r");
-			i = new RandomAccessFile(indexFile, "r");
+			readRAF = new RandomAccessFile(readFile, "r");
+			indexRAF = new RandomAccessFile(indexFile, "r");
 			
 			long indexPos = (long)(n*8);
-			i.seek(indexPos);
+			indexRAF.seek(indexPos);
 			
-			long readPos = i.readLong();
-			r.seek(readPos);
+			long readPos = indexRAF.readLong();
+			readRAF.seek(readPos);
 			
-			line = r.readLine();
+			line = readRAF.readLine();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		
 		/* The RandomAccessFile's need to be closed when we're done. */
 		} finally {
-			if ((r != null) & (i != null)) {
+			if ((readRAF != null) & (indexRAF != null)) {
 				try {
-					r.close();
-					i.close();
+					readRAF.close();
+					indexRAF.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -99,28 +101,28 @@ public class FileProcessor {
 	 * file io operations (opening, reading, calculating length)
 	 */
 	private void createIndexFile() {
-		RandomAccessFile r = null;
-		RandomAccessFile i = null;
+		RandomAccessFile readRAF = null;
+		RandomAccessFile indexRAF = null;
 		try {
-			r = new RandomAccessFile(readFile, "r");
-			i = new RandomAccessFile(indexFile, "rw");
-			Long len = r.length();
+			readRAF = new RandomAccessFile(readFile, "r");
+			indexRAF = new RandomAccessFile(indexFile, "rw");
+			Long len = readRAF.length();
 			
-			while (r.getFilePointer() < len) {
-				Long ptr = r.getFilePointer();
-				r.readLine();
-				i.writeLong(ptr);
-				i.seek(i.length());
+			while (readRAF.getFilePointer() < len) {
+				Long ptr = readRAF.getFilePointer();
+				readRAF.readLine();
+				indexRAF.writeLong(ptr);
+				indexRAF.seek(indexRAF.length());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			
 		/* The RandomAccessFile's need to be closed when we're done. */
 		} finally {
-			if ((r != null) & (i != null)) {
+			if ((readRAF != null) & (indexRAF != null)) {
 				try {
-					r.close();
-					i.close();
+					readRAF.close();
+					indexRAF.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
