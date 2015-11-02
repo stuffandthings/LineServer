@@ -1,6 +1,4 @@
-[LineServer]
-
-How the system works:
+## LineServer
 
 The LineServer consists of two main componenets:
 - A Tomcat Servlet that serves up a line in a file
@@ -79,10 +77,17 @@ quality first, and then researching existing frameworks and libraries for cachin
 
 List of Resources used:
 http://stackoverflow.com/questions/8231631/creating-a-simple-index-on-a-text-file-in-java
+
 http://docs.oracle.com/javase/8/docs/api/java/io/RandomAccessFile.html
+
 https://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/ServletResponse.html
+
 http://docs.oracle.com/javaee/6/tutorial/doc/bnadr.html
+
 https://tomcat.apache.org/tomcat-7.0-doc/jndi-resources-howto.html
+
 http://people.apache.org/~mturk/docs/article/ftwai.html
+
 http://tutorials.jenkov.com/java-servlets/web-xml.html
+
 Additionally, the #Java channel on IRC was very helpful in conceptually explaining servlets.
