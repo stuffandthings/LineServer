@@ -22,7 +22,7 @@ stored as 8 byte longs in a newly created index file. Since the given file can b
 or less arbitrarily large creating this index can take some time (O(n) time to traverse
 the entire file, and some additional time k for all the file i/o stuff). 
 
-System Performance:
+## System Performance:
 
 The system should perform reasonably well for the client. In other words, the client
 will receive the requested line with an acceptable delay. The server itself will require
@@ -36,7 +36,7 @@ index file. We measure the offset in the index file by multiplying the given lin
 by 8 and jump directly to it using the Java RandomAccessFile seek method. This gives us the 
 offset in the main text file at that line number, which we can now directly access using
 the seek method.
-Performance estimates:
+### Performance estimates:
 Assumption - each line is 32 bytes
 1 GB file = 31,250,000 lines
 It would take O(31,250,000) + k, where k is some time constant, time to process the file.
@@ -75,7 +75,8 @@ very performant server capable of enterprise level line serving.
 If I had unlimited more time, I would probably prioritize making small tweaks and better code
 quality first, and then researching existing frameworks and libraries for caching and map-reduce.
 
-List of Resources used:
+### List of Resources used:
+
 http://stackoverflow.com/questions/8231631/creating-a-simple-index-on-a-text-file-in-java
 
 http://docs.oracle.com/javase/8/docs/api/java/io/RandomAccessFile.html
