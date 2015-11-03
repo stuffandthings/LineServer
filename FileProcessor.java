@@ -100,4 +100,22 @@ public class FileProcessor {
 		
 		}
 	}
+	
+	/**
+	 * The finalize method is taking care of closing the RandomAccessFile's 
+	 * since they are global to this class.
+	 */
+	@override
+	protected void finalize() throws Throwable {
+		try {
+			if (readRAF != null) {
+				readRAF.close()
+			}
+			if (indexRAF != null) {
+				indexRAF.close()
+			}
+		} finally {
+			super.finalize();
+		}
+	}
 }
