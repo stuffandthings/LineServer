@@ -20,9 +20,10 @@ public class FileProcessor {
 	
 	private static String indexFileName = null;
 	private static File indexFile = null;
+	
+	private RandomAccessFile readRAF = null;
+	private RandomAccessFile indexRAF = null;
 
-	
-	
 	public FileProcessor(String name) {
 		readFileName = name;
 		readFile = new File(readFileName);
@@ -53,13 +54,8 @@ public class FileProcessor {
 	 */
 	public String getLine(int n) {
 		String line = null;
-		RandomAccessFile readRAF = null;
-		RandomAccessFile indexRAF = null;
 		
-		try {
-			readRAF = new RandomAccessFile(readFile, "r");
-			indexRAF = new RandomAccessFile(indexFile, "r");
-			
+		if (readRAF != null && indexRAF != null) {
 			long indexPos = (long)(n*8);
 			indexRAF.seek(indexPos);
 			
@@ -67,21 +63,8 @@ public class FileProcessor {
 			readRAF.seek(readPos);
 			
 			line = readRAF.readLine();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		
-		/* The RandomAccessFile's need to be closed when we're done. */
-		} finally {
-			if ((readRAF != null) & (indexRAF != null)) {
-				try {
-					readRAF.close();
-					indexRAF.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
+			
 		if (line != null) {
 			return line;
 		}
@@ -101,8 +84,6 @@ public class FileProcessor {
 	 * file io operations (opening, reading, calculating length)
 	 */
 	private void createIndexFile() {
-		RandomAccessFile readRAF = null;
-		RandomAccessFile indexRAF = null;
 		try {
 			readRAF = new RandomAccessFile(readFile, "r");
 			indexRAF = new RandomAccessFile(indexFile, "rw");
@@ -116,17 +97,7 @@ public class FileProcessor {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			
-		/* The RandomAccessFile's need to be closed when we're done. */
-		} finally {
-			if ((readRAF != null) & (indexRAF != null)) {
-				try {
-					readRAF.close();
-					indexRAF.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+		
 		}
 	}
 }
